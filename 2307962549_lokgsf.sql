@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 05, 2017 at 01:22 PM
+-- Generation Time: May 10, 2017 at 12:06 PM
 -- Server version: 5.7.14-log
 -- PHP Version: 5.4.14
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `detailrental` (
   `Vid_ID` int(11) NOT NULL,
   `FEE` double NOT NULL,
   `DueDate` date NOT NULL,
-  `ReturnDate` date NOT NULL,
+  `ReturnDate` date DEFAULT NULL,
   `DailyLateFee` double NOT NULL,
   PRIMARY KEY (`Rent_ID`,`Vid_ID`),
   KEY `Vid_ID` (`Vid_ID`)
@@ -41,8 +41,7 @@ CREATE TABLE IF NOT EXISTS `detailrental` (
 -- Dumping data for table `detailrental`
 --
 
-INSERT INTO `detailrental` (`Rent_ID`, `Vid_ID`, `FEE`, `DueDate`, `ReturnDate`, `DailyLateFee`) 
-VALUES
+INSERT INTO `detailrental` (`Rent_ID`, `Vid_ID`, `FEE`, `DueDate`, `ReturnDate`, `DailyLateFee`) VALUES
 (1001, 34342, 2, '2009-03-04', '2009-03-02', 1),
 (1001, 34366, 3.5, '2009-03-04', '2009-03-02', 3),
 (1001, 61353, 2, '2009-03-04', '2009-03-03', 1),
@@ -55,7 +54,7 @@ VALUES
 (1004, 44392, 3.5, '2009-03-05', '2009-03-07', 3),
 (1005, 34342, 2, '2009-03-07', '2009-03-05', 1),
 (1005, 44397, 3.5, '2009-03-05', '2009-03-05', 3),
-(1006, 34355, 3.5, '2009-03-05', '2009-03-04', 3),
+(1006, 34366, 3.5, '2009-03-05', '2009-03-04', 3),
 (1006, 61367, 2, '2009-03-07', NULL, 1),
 (1007, 34368, 3.5, '2009-03-05', NULL, 3),
 (1008, 34369, 3.5, '2009-03-05', '2009-03-05', 3),
@@ -111,8 +110,22 @@ CREATE TABLE IF NOT EXISTS `movie` (
   `Genre` varchar(10) NOT NULL,
   `PriceCode` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `PriceCode` (`PriceCode`)
+  KEY `PriceCode` (`PriceCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `movie`
+--
+
+INSERT INTO `movie` (`ID`, `Title`, `Year`, `Cost`, `Genre`, `PriceCode`) VALUES
+(1234, 'The Cesar Family Christmas', 2007, 39.95, 'FAMILY', 2),
+(1235, 'Smokey Mountain Wildlife', 2004, 59.95, 'ACTION', 1),
+(1236, 'Richard Goodhope', 2008, 59.95, 'DRAMA', 2),
+(1237, 'Beatnik Fever', 2007, 29.95, 'COMEDY', 2),
+(1238, 'Constant Companion', 2008, 89.95, 'DRAMA', 2),
+(1239, 'Where Hope Dies', 1998, 25.49, 'DRAMA', 3),
+(1245, 'Time To Burn', 2005, 45.49, 'ACTION', 1),
+(1246, 'What He Doesn''t Know', 2006, 58.29, 'COMEDY', 1);
 
 -- --------------------------------------------------------
 
@@ -127,6 +140,16 @@ CREATE TABLE IF NOT EXISTS `price` (
   `DailyLateFee` double NOT NULL,
   PRIMARY KEY (`Code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `price`
+--
+
+INSERT INTO `price` (`Code`, `Description`, `Fee`, `DailyLateFee`) VALUES
+(1, 'Standard', 2, 1),
+(2, 'New Realese', 3.5, 3),
+(3, 'Discount', 1.5, 1),
+(4, 'Weekly Special', 1, 0.5);
 
 -- --------------------------------------------------------
 
@@ -157,8 +180,6 @@ INSERT INTO `rental` (`ID`, `Rent_Date`, `Mem_ID`) VALUES
 (1008, '2009-03-03', 105),
 (1009, '2009-03-03', 111);
 
-
-
 -- --------------------------------------------------------
 
 --
@@ -170,8 +191,31 @@ CREATE TABLE IF NOT EXISTS `video` (
   `INDATE` date NOT NULL,
   `Movie_ID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `Movie_ID` (`Movie_ID`)
+  KEY `Movie_ID` (`Movie_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `video`
+--
+
+INSERT INTO `video` (`ID`, `INDATE`, `Movie_ID`) VALUES
+(34341, '2007-01-22', 1235),
+(34342, '2007-01-22', 1235),
+(34366, '2009-03-02', 1236),
+(34367, '2009-03-02', 1236),
+(34368, '2009-03-02', 1236),
+(34369, '2009-03-02', 1236),
+(44392, '2008-10-21', 1237),
+(44397, '2008-10-21', 1237),
+(54321, '2008-06-18', 1234),
+(54324, '2008-06-18', 1234),
+(54325, '2008-06-18', 1234),
+(59237, '2009-02-14', 1237),
+(61353, '2006-01-28', 1245),
+(61354, '2006-01-28', 1245),
+(61367, '2008-07-30', 1246),
+(61369, '2008-07-30', 1246),
+(61388, '2007-01-25', 1239);
 
 --
 -- Constraints for dumped tables
@@ -205,3 +249,4 @@ ALTER TABLE `video`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
