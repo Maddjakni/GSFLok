@@ -98,3 +98,49 @@ inner join rental on (`Rent_ID` = `Rental`.`ID`)
 Inner Join video On (`VID_ID` = `Video`.`ID`)
 Inner join movie on (`Movie_ID` = `Movie`.`ID`)
 Where `ReturnDate` > `DueDate`
+
+20.
+SELECT `Rent_ID`, `Vid_ID`,  `Title`, `DueDate`, `ReturnDate`, `Rent_Date`, (`ReturnDate` - `DueDate`) As 'Days Past Due'
+FROM `detailrental`
+inner join rental on (`Rent_ID` = `Rental`.`ID`)
+Inner Join video On (`VID_ID` = `Video`.`ID`)
+Inner join movie on (`Movie_ID` = `Movie`.`ID`)
+Where `ReturnDate` > `DueDate`
+
+21.
+SELECT `Rent_ID`, `Rent_Date`, `Title`, `FEE`
+FROM `detailrental` 
+Join rental on (`Rent_ID` = `Rental`.`ID`)
+join video on (`Vid_ID` = `Video`.`ID`)
+join movie on (`Movie_ID` = `Movie`.`ID`)
+WHERE `ReturnDate` <= `DueDate`
+
+22.
+SELECT `Members`.`ID`, `Last Name`, `First Name`, sum(`Fee`) 
+FROM `detailrental`
+Inner join rental on (`Rent_ID` = `Rental`.`ID`)
+Inner join members on (`Mem_ID` = `Members`.`ID`)
+Group By `Members`.`ID`
+
+23.
+SELECT `ID`, `G`.`GENRE`, CAST(`AC` AS DECIMAL(10,2)) AS `AVRAGE COST` , `COST`, CAST((`COST`-`AC`)/`AC`*100 AS DECIMAL(10,2)) AS `PRECENTAGE DIFFREANCE`
+FROM`MOVIE` `G`, (SELECT `GENRE`, AVG(`COST`) AS `AC` FROM`MOVIE` GROUP BY  `GENRE`) `J` 
+WHERE `G`.`GENRE` = `J`.`GENRE`; 
+
+24.
+ALTER TABLE  `detailrental` ADD  `DaysLate` TINYINT( 3 ) NULL AFTER  `DailyLateFee` ;
+
+25.
+ALTER TABLE  `video` ADD  `Status` VARCHAR( 4 ) NOT NULL DEFAULT  'IN' 
+Check (`Status` = 'IN' or `Status` = 'OUT' OR `Status` = 'LOST');
+
+26.
+UPDATE `Video` Set `Status`= 'OUT'
+Where `ID` IN (Select `Vid_ID` From `detailrental` Where `ReturnDate` IS NULL)
+
+27.
+ALTER TABLE  `price` ADD  `RentDays` TINYINT( 2 ) NOT NULL DEFAULT  '3';
+
+28.
+UPDATE `price` SET `RentDays`= 5 WHERE `Code` In (1,3)
+UPDATE `price` SET `RentDays`= 7 WHERE `Code` = 4
